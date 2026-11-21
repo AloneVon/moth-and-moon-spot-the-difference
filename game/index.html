@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moth &amp; Moon — A Curious Spotting Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="brand-wing left"></span>
+          <span class="brand-moon">☾</span>
+          <span class="brand-wing right"></span>
+        </div>
+        <div>
+          <h1>Moth <span>&amp;</span> Moon</h1>
+          <p>a curious spotting game</p>
+        </div>
+      </div>
+
+      <div class="case-plaque">
+        <span class="case-kicker" id="case-kicker">CASE 01 · THE LANTERN LIBRARY</span>
+        <span class="case-objective" id="case-objective">Find ten differences before the candles burn out.</span>
+      </div>
+
+      <div class="timer-card" id="timer-card">
+        <div class="timer-label"><span class="timer-orb"></span> CANDLELIGHT</div>
+        <div class="timer-value" id="timer-value">03:30</div>
+        <div class="timer-track"><span id="timer-fill"></span></div>
+      </div>
+    </header>
+
+    <main class="stage" aria-label="Two pictures to compare">
+      <section class="panel-shell" id="left-panel">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+        <canvas id="left-canvas" aria-label="Original picture"></canvas>
+        <span class="panel-tag">THE ORIGINAL</span>
+      </section>
+      <div class="divider" aria-hidden="true"><span>✦</span><i></i><span>✦</span></div>
+      <section class="panel-shell" id="right-panel">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
+        <canvas id="right-canvas" aria-label="Picture with differences"></canvas>
+        <span class="panel-tag">THE ODD COPY</span>
+      </section>
+    </main>
+
+    <footer class="bottombar">
+      <div class="find-card">
+        <div class="find-count"><strong id="found-count">0</strong><span>/</span><em id="total-count">10</em></div>
+        <div class="find-copy">
+          <b>differences found</b>
+          <span><strong id="remaining-count">10</strong> still hiding</span>
+        </div>
+        <div class="pip-row" id="pip-row" aria-hidden="true"></div>
+      </div>
+
+      <div class="hint-card">
+        <div class="hint-topline">
+          <span class="hint-label">✦ WHISPERING HINT</span>
+          <span class="hint-charges" id="hint-charges">3 left</span>
+        </div>
+        <p id="hint-text">Something in this room is wearing its Sunday face. Click a difference in either picture.</p>
+      </div>
+
+      <div class="action-cluster">
+        <div class="streak-stamp" id="streak-stamp"><span>STREAK</span><strong>×1</strong></div>
+        <button class="icon-btn" id="hint-btn" title="Spend a hint (H)" aria-label="Spend a hint">
+          <span class="bulb">✦</span><b>HINT</b><em>H</em>
+        </button>
+        <button class="icon-btn small" id="mute-btn" title="Mute sound (M)" aria-label="Mute sound">
+          <span id="mute-icon">♪</span><em>M</em>
+        </button>
+        <button class="icon-btn small" id="pause-btn" title="Pause (P)" aria-label="Pause game">
+          <span>Ⅱ</span><em>P</em>
+        </button>
+      </div>
+    </footer>
+
+    <div class="screen-overlay visible" id="intro-screen">
+      <div class="overlay-card intro-card">
+        <div class="eyebrow">AN ORIGINAL SPOTTING FABLE</div>
+        <div class="seal">✦</div>
+        <h2>Moth <span>&amp;</span> Moon</h2>
+        <p class="lede">Three impossible rooms. Thirty-six tiny lies.<br>Only one copy tells the truth.</p>
+        <div class="rule-strip">
+          <div><b>01</b><span>Study both pictures</span></div>
+          <div><b>02</b><span>Click each changed detail</span></div>
+          <div><b>03</b><span>Beat the candle clock</span></div>
+        </div>
+        <button class="primary-btn" id="begin-btn">ENTER THE FIRST ROOM <span>→</span></button>
+        <p class="fineprint">Mouse or arrow keys · H for a hint · P to pause</p>
+      </div>
+    </div>
+
+    <div class="screen-overlay" id="clear-screen">
+      <div class="overlay-card clear-card">
+        <div class="eyebrow" id="clear-eyebrow">CASE 01 CLOSED</div>
+        <div class="clear-stars" id="clear-stars">✦ ✦ ✦</div>
+        <h2 id="clear-title">A fine pair of eyes.</h2>
+        <p class="lede" id="clear-copy">Every odd detail in The Lantern Library has been found.</p>
+        <div class="score-grid">
+          <div><span>FOUND</span><strong id="clear-found">10 / 10</strong></div>
+          <div><span>TIME LEFT</span><strong id="clear-time">01:08</strong></div>
+          <div><span>SCORE</span><strong id="clear-score">1,480</strong></div>
+        </div>
+        <button class="primary-btn" id="next-btn">NEXT ROOM <span>→</span></button>
+        <p class="fineprint" id="clear-fineprint">The candle clock is reset in the next room.</p>
+      </div>
+    </div>
+
+    <div class="screen-overlay" id="pause-screen">
+      <div class="overlay-card pause-card">
+        <div class="eyebrow">THE ROOM HOLDS ITS BREATH</div>
+        <h2>Paused</h2>
+        <p class="lede">The candle clock has stopped. No detail will wander off.</p>
+        <button class="primary-btn" id="resume-btn">KEEP LOOKING <span>→</span></button>
+        <p class="fineprint">Press P or Escape to resume.</p>
+      </div>
+    </div>
+
+    <div class="screen-overlay" id="final-screen">
+      <div class="overlay-card final-card">
+        <div class="eyebrow">THE CABINET IS STILL</div>
+        <div class="final-moth" aria-hidden="true">☾</div>
+        <h2>Every room observed.</h2>
+        <p class="lede">You saw what the quiet things were hiding.<br>Moth &amp; Moon thank you for your patience.</p>
+        <div class="score-grid final-grid">
+          <div><span>ROOMS CLEARED</span><strong>3 / 3</strong></div>
+          <div><span>DIFFERENCES</span><strong>36 / 36</strong></div>
+          <div><span>FINAL SCORE</span><strong id="final-score">4,200</strong></div>
+        </div>
+        <button class="primary-btn" id="again-btn">WANDER AGAIN <span>↻</span></button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+    <div class="screen-flash" id="screen-flash"></div>
+  </div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

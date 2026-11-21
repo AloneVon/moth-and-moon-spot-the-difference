@@ -1,0 +1,8 @@
+{
+  "name": "moth-and-moon-spot-the-difference",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "An original Canvas 2D spot-the-difference game built for make.fun.",
+  "license": "MIT"
+}

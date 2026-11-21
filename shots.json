@@ -1,0 +1,5 @@
+[
+  { "name": "1-cloud-kitchen.jpg", "query": "?shot=cover" },
+  { "name": "2-lantern-library.jpg", "query": "?shot=library" },
+  { "name": "3-starfall-conservatory.jpg", "query": "?shot=conservatory" }
+]
